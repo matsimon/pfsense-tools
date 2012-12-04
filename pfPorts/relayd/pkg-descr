@@ -1,3 +1,5 @@
+This is the FreeBSD port of the OpenBSD relayd and relayctl.
+
 relayd is a daemon to relay and dynamically redirect incoming connections
 to a target host.  Its main purposes are to run as a load-balancer,
 application layer gateway, or transparent proxy.  The daemon is able to
@@ -8,4 +10,11 @@ firmed, Layer 3 and/or layer 7 forwarding services are set up by relayd.
 Layer 3 redirection happens at the packet level; to configure it, relayd
 communicates with pf(4). 
 
-WWW: http://spootnik.org/relayd/
+The following relayd functionality is not (yet) implemented in FreeBSD:
+- carp demote
+- modifying routing tables
+- snmp traps
+
+The relayctl program controls the relayd(8) daemon.
+
+WWW: https://github.com/mmatuska/relayd

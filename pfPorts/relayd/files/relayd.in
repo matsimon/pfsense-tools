@@ -1,9 +1,10 @@
 #!/bin/sh
 #
-# $FreeBSD: ports/net/relayd/files/relayd.in,v 1.4 2010/05/28 11:59:50 mm Exp $
+# $FreeBSD$
 #
 # PROVIDE: relayd
-# REQUIRE: LOGIN
+# REQUIRE: NETWORKING syslogd
+# BEFORE:  DAEMON
 # KEYWORD: shutdown
 
 # Add the following lines to /etc/rc.conf to enable relayd:
@@ -13,7 +14,7 @@
 . /etc/rc.subr
 
 name=relayd
-rcvar=${name}_enable
+rcvar=relayd_enable
 
 load_rc_config $name
 
