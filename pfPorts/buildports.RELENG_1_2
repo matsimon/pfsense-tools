@@ -85,7 +85,7 @@ PORTSTOBUILD="grub \
 	sshlockout_pf-old \
 	stats \
 	vtsh \
-	openvpn-old \
+	openvpn20 \
 	zip \
 	links \
 	dnswatch-old \
