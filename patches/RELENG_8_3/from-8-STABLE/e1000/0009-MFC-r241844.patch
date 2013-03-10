@@ -1,0 +1,32 @@
+From 4f5ee092cc349849e6a4848430525245eaa78099 Mon Sep 17 00:00:00 2001
+From: Mathieu Simon <mathieu.simon@simweb.ch>
+Date: Sun, 10 Mar 2013 21:30:13 +0100
+Subject: [PATCH 9/9] MFC r241844:     remove duplicate semicolons where
+ possible.
+
+Approved by:        cperciva (implicit)a1b26955c81afc8c1d15e4934f0848d2515907a8
+
+Author: eadler <eadler@FreeBSD.org>
+Date:   Sun Nov 4 01:20:57 2012 +0000
+
+(Manually imported patch)
+---
+ sys/dev/e1000/if_lem.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sys/dev/e1000/if_lem.c b/sys/dev/e1000/if_lem.c
+index 655504d..a422200 100644
+--- a/sys/dev/e1000/if_lem.c
++++ b/sys/dev/e1000/if_lem.c
+@@ -3425,7 +3425,7 @@ lem_free_receive_structures(struct adapter *adapter)
+ static bool
+ lem_rxeof(struct adapter *adapter, int count, int *done)
+ {
+-	struct ifnet	*ifp = adapter->ifp;;
++	struct ifnet	*ifp = adapter->ifp;
+ 	struct mbuf	*mp;
+ 	u8		status = 0, accept_frame = 0, eop = 0;
+ 	u16 		len, desc_len, prev_len_adj;
+-- 
+1.7.9.5
+
