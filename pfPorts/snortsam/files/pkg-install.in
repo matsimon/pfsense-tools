@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $FreeBSD: ports/security/snortsam/files/pkg-install.in,v 1.1 2009/12/31 20:18:29 miwi Exp $
+# $FreeBSD$
 
 ETCDIR=${ETCDIR:=%%ETCDIR%%}
 

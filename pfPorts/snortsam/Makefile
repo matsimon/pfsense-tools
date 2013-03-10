@@ -2,11 +2,12 @@
 # Date created:        27 August 2008
 # Whom:                Danton Dorati <urisso@bsd.com.br>
 #
-# $FreeBSD: ports/security/snortsam/Makefile,v 1.4 2011/06/15 13:52:50 wxs Exp $
+# $FreeBSD$
 #
 
 PORTNAME=	snortsam
 PORTVERSION=	2.70
+PORTREVISION=	1
 CATEGORIES=	security
 MASTER_SITES=	http://www.snortsam.net/files/snortsam/
 DISTNAME=	${PORTNAME}-src-${PORTVERSION}
@@ -20,14 +21,13 @@ OPTIONS=	IPFW	"checks if configured tables are available" off \
 
 .include <bsd.port.pre.mk>
 
-USE_RC_SUBR=	snortsam.sh
+USE_RC_SUBR=	snortsam
 SUB_FILES=	pkg-message \
 		pkg-install
 
 HAS_CONFIGURE=	yes
 NO_BUILD=	yes
 CONFIGURE_SCRIPT=	src/Makefile
-WRKSRC=		${WRKDIR}/${PKGNAMEPREFIX}${PORTNAME}
 
 CONFIG_DIR?=	${PREFIX}/etc/snortsam
 
@@ -53,6 +53,9 @@ EXTRA_PATCHES+=	${FILESDIR}/ssp_ipfw2_no_table_check.patch
 .if defined(WITH_DEBUG)
 DEBUG=-DDEBUG
 .endif
+
+post-extract:
+	@${MV} ${WRKDIR}/${PORTNAME} ${WRKSRC}
 
 pre-configure:
 	@${REINPLACE_CMD} -e "s|/etc/snortsam.conf|${CONFIG_DIR}/snortsam.conf|g" ${WRKSRC}/conf/snortsam.conf.sample
