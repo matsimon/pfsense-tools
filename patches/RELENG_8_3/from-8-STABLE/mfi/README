@@ -2,11 +2,11 @@ This backport is specific to FreeBSD 8.3.
 
 This backported driver can be dropped as soon as we switch to a more 
 recent base FreeBSD. See notes above to see which included patch is
-present in upon a certain release/branch (as of 2013-03-10):
+present in a certain release/branch (as of 2013-03-10):
 
----------------------------------------
-> RELENG 8.3, >= RELENG 9.1, 10-CURRENT
----------------------------------------
+----------------------------------------
+>= RELENG 8.4, >= RELENG 9.1, 10-CURRENT
+----------------------------------------
 Author: sbruno <sbruno@FreeBSD.org>
 Date:   Fri May 18 19:48:33 2012 +0000
 
@@ -56,7 +56,7 @@ Date:   Mon Jul 2 19:19:21 2012 +0000
     Obtained from:	DragonFly
 
 ------------------------------------------
->= RELENG 8.3, > RELENG 9.1, >= 10-CURRENT
+>= RELENG 8.4, > RELENG 9.1, >= 10-CURRENT
 ------------------------------------------
 Author: jhb <jhb@FreeBSD.org>
 Date:   Wed Aug 29 17:36:31 2012 +0000
@@ -155,6 +155,9 @@ Date:   Mon Dec 3 18:47:25 2012 +0000
       Thunderbolt cards don't seem to abort commands so the abort times
       out.
 
+-----------------------------------------
+> RELENG 8.4, > RELENG 9.1, >= 10-CURRENT
+-----------------------------------------
 Author: delphij <delphij@FreeBSD.org>
 Date:   Tue Mar 5 06:43:54 2013 +0000
 
@@ -164,3 +167,68 @@ Date:   Tue Mar 5 06:43:54 2013 +0000
     
     Submitted by:       Sascha Wildner <saw online de>
     Obtained from:      DragonFly rev 0dc98fff2206d7bb78ce5e07ac34d6954e4bd96a
+
+Author: delphij <delphij@FreeBSD.org>
+Date:   Mon Apr 8 23:06:25 2013 +0000
+
+    MFC r248627:
+    
+    Don't attempt to reference sc before testing whether it's NULL.
+    
+    Submitted by:       Sascha Wildner
+    Obtained from:      DragonFly
+
+Author: markj <markj@FreeBSD.org>
+Date:   Fri May 10 21:11:18 2013 +0000
+
+    MFC r249257:
+      Add support for getting and setting BBU properties related to battery
+      relearning. Specifically, add subcommands to mfiutil(8) which allow the
+      user to set the BBU and autolearn modes when the firmware supports it,
+      and add a subcommand which kicks off a battery relearn.
+    
+    MFC r249258:
+      Switch to a 2-clause license.
+
+Author: smh <smh@FreeBSD.org>
+Date:   Sat May 11 02:48:40 2013 +0000
+
+    MFC r244123 Add CTLFLAG_RWTUN define
+    MFC r247367 Fix non-recusive mutex MFI I/O lock
+    MFC r247369 Fix a large amount of bugs in MFI that cause panics
+    
+    Approved by:        pjd (mentor)
+
+Author: smh <smh@FreeBSD.org>
+Date:   Wed Jun 5 10:19:21 2013 +0000
+
+    MFC r247426:
+    Add hw.mfi.cmd_timeout loader / sysctl tuneable.
+
+Author: smh <smh@FreeBSD.org>
+Date:   Wed Jul 3 08:35:14 2013 +0000
+
+    MFC r252471:
+    Remove forced timeout of in-flight commands from mfi_timeout.
+    
+    While this prevents commands getting stuck forever there is no way to guarantee
+    that data from the command hasn't been committed to the device.
+    
+    In addition older mfi firmware has a bug that would cause the controller to
+    frequently stall IO for over our timeout value, which when combined with
+    a forced timeout often resulted in panics in UFS; which would otherwise be
+    avoided when the command eventually completed if left alone.
+    
+    For reference this timeout issue is resolved in Dell FW package 21.2.1-0000.
+    Fixed FW package version for none Dell controller will likely vary.
+
+Author: markj <markj@FreeBSD.org>
+Date:   Wed Jul 3 23:16:33 2013 +0000
+
+    MFC r242726 (ambrisko):
+    Add support for SCSI pass through devices to be attached and detached.
+    
+    MFC r251172 (sbruno):
+    xpt_create_path() requires mfi_io_lock to be held, so do it.
+    
+    mfi(4) doesn't panic on host startup now.
