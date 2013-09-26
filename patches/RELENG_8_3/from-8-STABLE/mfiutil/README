@@ -1,5 +1,93 @@
-This backport is specific to FreeBSD 8.3.
+This backport is specific to FreeBSD 8.3 from 8-STABLE.
 
-These patches can be safely dropped as soon as
-pfSense switches to base FreeBSD > 8.3, >= 9.1 or >=10.
+This backported utility can be dropped as soon as we switch to a more 
+recent base FreeBSD. See notes above to see which included patch is
+present in upon a certain release/branch (as of 2013-09-26):
 
+---------------------------------------
+> RELENG 8.3, >= RELENG 9.1, 10-CURRENT
+---------------------------------------
+Author: bz <bz@FreeBSD.org>
+Date:   Sat May 19 14:32:47 2012 +0000
+
+    MFC r233713:
+
+      Remove the magic mfi_array is 288 bytes and just use the
+      sizeof the array since it is not 288 bytes.
+
+      Change reporting of a "SYSTEM" disk to "JBOD" to match
+      LSI MegaCli and firmware reporting.
+
+      This means that mfiutil command to "create jbod" is now a
+      little confusing since a RAID per drive is not really what
+      LSI defines JBOD to be.  This should be fixed in the future
+      and support added to really create LSI JBOD and enable that
+      feature on cards that support it.
+
+    To unbreak the build after:	r235625 (?)
+
+Author: sbruno <sbruno@FreeBSD.org>
+Date:   Thu May 24 16:41:26 2012 +0000
+
+    MFC r235634
+
+    Decode new battery status indications.
+
+Author: eadler <eadler@FreeBSD.org>
+Date:   Tue Jun 26 03:05:42 2012 +0000
+
+    MFC r237259 r237260 r237329:
+    	Allow users with RO privilege to the device to read the RO attributes. [0]
+    	Add __unused macros to appropriate places in order to allow building
+    	with WARNS=6 on base gcc, gcc46, and clang
+
+    PR:		bin/167302 [0]
+    Approved by:	cperciva (implicit)
+
+
+---------------------------------------
+> RELENG 8.4, >= RELENG 9.2, 10-CURRENT
+---------------------------------------
+Author: markj <markj@FreeBSD.org>
+Date:   Fri May 10 21:11:18 2013 +0000
+
+    MFC r249257:
+      Add support for getting and setting BBU properties related to battery
+      relearning. Specifically, add subcommands to mfiutil(8) which allow the
+      user to set the BBU and autolearn modes when the firmware supports it,
+      and add a subcommand which kicks off a battery relearn.
+
+    MFC r249258:
+      Switch to a 2-clause license.
+
+    Conflicts:
+
+    	sys/dev/mfi/mfi_debug.c
+        (Covered by the patches related to mfi(4) only)
+
+Author: markj <markj@FreeBSD.org>
+Date:   Sat Jun 22 05:32:45 2013 +0000
+
+    MFC r250599:
+    Add a remark to the effect that a manually started relearn will always
+    result in the battery being completely drained, even in transparent learning
+    mode.
+
+--------------------------------------
+> RELENG 8.4, > RELENG 9.2, 10-CURRENT
+--------------------------------------
+Author: sbruno <sbruno@FreeBSD.org>
+Date:   Mon Sep 9 21:05:01 2013 +0000
+
+    MFC r254906 -- add SYSPD (real jbod) support to mfiutil
+
+    Add support to reconfigure a drive as SYSPD (real JBOD in LSI
+    terminology).
+
+    Adds command "mfiutil syspd <drive#>" to change a drive to SYSPD.  Drive
+    will then be scanned/reported immediately as /dev/mfisyspdX by the host.
+
+    "mfiutil good <drive#>" clears SYSPD mode, remove /dev/mfisyspdX and
+    sets disk into UNCONFIGURED mode.
+
+    Tested on Dell H310 SAS/SATA RAID controller.
